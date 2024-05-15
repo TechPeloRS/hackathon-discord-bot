@@ -34,11 +34,11 @@ class TestCommand implements CommandInterface
         $team = ['name' => 'Time 1'];
         $guild = $discord->guilds->first();
 
-        if (config('app.env') == 'local') {
-            $guild->channels
-                ->filter(fn(Channel $channel) => $channel->getRawAttributes()['name'] != 'general')
-                ->map(fn(Channel $channel) => $guild->channels->delete($channel));
-        }
+//        if (config('app.env') == 'local-daniel') {
+//            $guild->channels
+//                ->filter(fn(Channel $channel) => $channel->getRawAttributes()['name'] != 'general')
+//                ->map(fn(Channel $channel) => $guild->channels->delete($channel));
+//        }
 
         $guild
             ->channels
