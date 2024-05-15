@@ -4,11 +4,8 @@ namespace App\Console\Commands;
 
 use App\Discord\Events\MessageCreate;
 use App\Discord\Events\SlashCommands;
-use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Exceptions\IntentException;
-use Discord\Parts\Channel\Channel;
-use Discord\Parts\Interactions\Interaction;
 use Discord\WebSockets\Event;
 use Discord\WebSockets\Intents;
 use Illuminate\Console\Command;
@@ -44,10 +41,8 @@ class StartServer extends Command
         ]);
 
         $discord->on('ready', function (Discord $discord) use ($messageCreate, $slashCommands){
-
             $discord->on(Event::MESSAGE_CREATE, fn ($message) => $messageCreate->handle($message, $discord));
             $slashCommands->setup($discord);
-
         });
 
         $discord->run();

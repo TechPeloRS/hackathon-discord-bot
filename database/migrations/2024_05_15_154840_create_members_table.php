@@ -10,10 +10,12 @@ return new class extends Migration {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained('teams');
+            $table->string('discord_id')->unique();
             $table->string('role_type');
-            $table->string('name');
-            $table->string('github_username');
+            $table->string('github_username')->nullable();
             $table->timestamps();
+
+            $table->index('discord_id');
         });
     }
 

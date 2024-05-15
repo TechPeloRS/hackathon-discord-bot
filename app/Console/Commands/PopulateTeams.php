@@ -30,9 +30,12 @@ class PopulateTeams extends Command
     {
         $emails = [
             'test1@example.com',
-            'test2@example.com'
+            'test2@example.com',
+            'daniel@daniel.com'
         ];
+
         Team::truncate();
+
         foreach ($emails as $email) {
             Team::query()->create([
                 'owner_email' => $email,

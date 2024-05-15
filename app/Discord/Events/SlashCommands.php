@@ -21,29 +21,25 @@ class SlashCommands
             $command = new Command($discord, [
                 'name' => $command->value,
                 'description' => $command->getDescription(),
-                'options' => $command->getOptions()
+                'options' => $command->getOptions(),
+                'default_member_permissions' => $command->getPermissions()
             ]);
 
             $discord
                 ->application
                 ->commands
-                ->save($command)->done(function (Command $command) {
-                    echo "Command {$command->name} registered", PHP_EOL;
-                });
+                ->save($command)->done(fn(Command $command) => dump("Command {$command->name} registered"));
         }
     }
 
     private function registerActions(Discord $discord): void
     {
-        $discord->listenCommand(
-            CommandsEnum::Ping->value,
-            fn (Interaction $interaction) => CommandsEnum::Ping->getAction()->handle($discord, $interaction)
-        );
-
-        $discord->listenCommand(
-            CommandsEnum::Test->value,
-            fn (Interaction $interaction) => CommandsEnum::Test->getAction()->handle($discord, $interaction)
-        );
+        foreach (CommandsEnum::cases() as $command) {
+            $discord->listenCommand(
+                $command->value,
+                fn(Interaction $interaction) => $command->getAction()->handle($discord, $interaction)
+            );
+        }
     }
 
 }

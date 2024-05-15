@@ -2,6 +2,7 @@
 
 namespace App\Discord\Commands;
 
+use App\Models\Team\Team;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel;
@@ -9,7 +10,7 @@ use Discord\Parts\Guild\Guild;
 use Discord\Parts\Interactions\Interaction;
 use Discord\Parts\Part;
 
-class TestCommand implements CommandInterface
+class SetupChannelsCommand implements CommandInterface
 {
 
     private array $newChannels = [
@@ -31,19 +32,23 @@ class TestCommand implements CommandInterface
 
     public function handle(Discord $discord, Interaction $interaction): void
     {
-        $team = ['name' => 'Time 1'];
+
+
         $guild = $discord->guilds->first();
+        if (config('app.env') == 'local-daniel') {
+            $guild->channels
+                ->filter(fn(Channel $channel) => $channel->getRawAttributes()['name'] != 'general')
+                ->map(fn(Channel $channel) => $guild->channels->delete($channel));
+        }
 
-//        if (config('app.env') == 'local-daniel') {
-//            $guild->channels
-//                ->filter(fn(Channel $channel) => $channel->getRawAttributes()['name'] != 'general')
-//                ->map(fn(Channel $channel) => $guild->channels->delete($channel));
-//        }
+        /** @var Team $team */
+        foreach (Team::all() as $team) {
+            $guild
+                ->channels
+                ->save($this->buildBaseCategory($guild, $team))
+                ->done(fn(Channel $channel) => $this->createChannels($team, $guild, $channel));
 
-        $guild
-            ->channels
-            ->save($this->buildBaseCategory($guild, $team))
-            ->done(fn(Channel $channel) => $this->createChannels($guild, $channel));
+        }
 
         $interaction->respondWithMessage(MessageBuilder::new()
             ->setContent('Canais criados! ' . implode(', ', $this->channelIds))
@@ -61,10 +66,10 @@ class TestCommand implements CommandInterface
 
     }
 
-    private function buildBaseCategory(Guild $guild, array $team): Part
+    private function buildBaseCategory(Guild $guild, Team $team): Part
     {
         return $guild->channels->create([
-            'name' => 'Time ' . $team['name'],
+            'name' => 'Time ' . $team->getKey(),
             'type' => Channel::TYPE_CATEGORY,
             'permission_overwrites' => [
                 $this->defaultPermissions()
@@ -72,10 +77,12 @@ class TestCommand implements CommandInterface
         ]);
     }
 
-    private function createChannels(?Guild $guild, Channel $channel): void
+    private function createChannels(Team $team, Guild $guild, Channel $channel): void
     {
+        $team->update(['channels_ids' => [$channel->id]]);
+        $team = $team->refresh();
+
         $categoryId = $channel->getRawAttributes()['id'];
-        $this->channelIds[] = $categoryId;
 
         foreach ($this->newChannels as $newChannel) {
             $channel = $guild->channels->create([
@@ -85,8 +92,12 @@ class TestCommand implements CommandInterface
             ]);
 
             $guild->channels->save($channel)
-                ->done(function (Channel $channel) {
+                ->done(function (Channel $channel) use ($team) {
                     $channelId = $channel->getRawAttributes()['id'];
+                    $team = $team->refresh();
+                    $team->update([
+                        'channels_ids' => [...$team->channels_ids, $channelId]
+                    ]);
                 });
         }
     }
