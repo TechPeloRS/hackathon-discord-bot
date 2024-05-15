@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Discord\Commands;
+namespace App\Discord\Commands\General;
 
+use App\Discord\Commands\CommandInterface;
 use App\Models\Team\Team;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;

@@ -2,6 +2,7 @@
 
 namespace App\Discord\Events;
 
+use App\Discord\Commands\CommandException;
 use App\Discord\Commands\CommandsEnum;
 use Discord\Discord;
 use Discord\Parts\Interactions\Command\Command;
@@ -37,7 +38,14 @@ class SlashCommands
         foreach (CommandsEnum::cases() as $command) {
             $discord->listenCommand(
                 $command->value,
-                fn(Interaction $interaction) => $command->getAction()->handle($discord, $interaction)
+                function (Interaction $interaction) use ($discord, $command){
+                    try {
+                        $command->getAction()->handle($discord, $interaction);
+                    } catch (CommandException $ex) {
+                        $interaction->respondWithMessage($ex->buildErrorMessage());
+                    }
+
+                }
             );
         }
     }

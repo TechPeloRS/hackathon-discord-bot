@@ -3,6 +3,7 @@
 namespace App\Models\Team;
 
 use App\Enums\TeamRoleEnum;
+use App\Models\Team\Member as TeamMember;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,5 +23,12 @@ class Member extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function alreadyJoinedATeam(string $discordId): bool
+    {
+        return $this
+            ->where('discord_id', $discordId)
+            ->exists();
     }
 }

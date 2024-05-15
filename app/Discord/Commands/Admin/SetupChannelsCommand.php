@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Discord\Commands;
+namespace App\Discord\Commands\Admin;
 
+use App\Discord\Commands\CommandInterface;
 use App\Models\Team\Team;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
@@ -36,10 +37,13 @@ class SetupChannelsCommand implements CommandInterface
 
         $guild = $discord->guilds->first();
         if (config('app.env') == 'local-daniel') {
+            $channelsNamePattern = ['geral', 'links-uteis', 'Voz', 'Time'];
+
             $guild->channels
-                ->filter(fn(Channel $channel) => $channel->getRawAttributes()['name'] != 'general')
+                ->filter(fn(Channel $channel) => str($channel->name)->contains($channelsNamePattern))
                 ->map(fn(Channel $channel) => $guild->channels->delete($channel));
         }
+
 
         /** @var Team $team */
         foreach (Team::all() as $team) {
@@ -86,7 +90,7 @@ class SetupChannelsCommand implements CommandInterface
 
         foreach ($this->newChannels as $newChannel) {
             $channel = $guild->channels->create([
-                'name' => $newChannel['name'] . ' ' . $channel->id,
+                'name' => $newChannel['name'],
                 'parent_id' => $categoryId,
                 'type' => $newChannel['category'],
             ]);

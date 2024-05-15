@@ -2,6 +2,9 @@
 
 namespace App\Discord\Commands;
 
+use App\Discord\Commands\Admin\SetupChannelsCommand;
+use App\Discord\Commands\General\PingCommand;
+use App\Discord\Commands\Teams\Join\JoinTeamCommand;
 use App\Enums\TeamRoleEnum;
 use Discord\Parts\Interactions\Command\Command;
 
@@ -32,23 +35,16 @@ enum CommandsEnum: string
     public function getAction(): CommandInterface
     {
         return match ($this) {
-            self::Test => new SetupChannelsCommand(),
-            self::Ping => new PingCommand(),
-            self::JoinTeam => new JoinTeamCommand(),
+            self::Test => app(SetupChannelsCommand::class),
+            self::Ping => app(PingCommand::class),
+            self::JoinTeam => app(JoinTeamCommand::class),
         };
     }
 
     public function getOptions(): array
     {
         return match ($this) {
-            self::Test => [
-                [
-                    'name' => 'test',
-                    'description' => 'Test Option',
-                    'type' => Command::MESSAGE,
-                    'required' => true,
-                ]
-            ],
+            self::Test => [],
             self::Ping => [
                 [
                     'name' => 'test',
