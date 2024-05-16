@@ -44,7 +44,6 @@ class SlashCommands
                     } catch (CommandException $ex) {
                         $interaction->respondWithMessage($ex->buildErrorMessage());
                     }
-
                 }
             );
         }

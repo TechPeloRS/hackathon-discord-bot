@@ -27,7 +27,6 @@ class JoinTeamCommand implements CommandInterface
         $guild = $discord->guilds->first();
         $dto = JoinTeamDTO::makeFromInteraction($interaction);
 
-
         $memberIsAlreadyInATeam = $this->teamMember->alreadyJoinedATeam($dto->member->id);
         if ($memberIsAlreadyInATeam) {
             throw JoinTeamException::alreadyInATeam();
