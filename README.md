@@ -30,7 +30,7 @@ uma [issue](https://github.com/TechPeloRS/discord-bot/issues/new) e vamos discut
 | [x] | /entrar-time  | `chave`, `area-de-atuacao`, `github` | Entre no seu time utilizando a chave providenciada pelo lider |
 | [ ] | /time         | `atualizar/sair`                     | Gerenciamento de times                                        |
 | [ ] | /estatisticas | N/D                                  | Estatisticas Gerais do Hackathon                              |
-| [ ] | /ajuda        | `mentoria/moderacao` `mensagem`      | Envia um pedido de para a sala dos mentores.                  |
+| [ ] | /ajuda        | `mentoria/moderacao` `mensagem`      | Envia um pedido de ajuda para a sala dos mentores.                  |
 
 ## Estrutura do Projeto
 
