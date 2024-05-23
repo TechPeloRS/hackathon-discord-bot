@@ -52,7 +52,7 @@ class LoadHackathonCommand extends Command
 
         $participantsList
             ->each(function (Stringable $participantEmail) {
-                Team::query()->create([
+                Mentor::query()->updateOrCreate([
                     'owner_email' => $participantEmail->toString(),
                     'channels_ids' => []
                 ]);
