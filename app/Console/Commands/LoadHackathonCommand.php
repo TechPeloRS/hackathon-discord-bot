@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Mentor\Mentor;
 use App\Models\Team\Member;
 use App\Models\Team\Team;
 use Illuminate\Console\Command;
@@ -32,6 +33,7 @@ class LoadHackathonCommand extends Command
 
         $this->wipeTeams();
         $this->loadParticipants($participantsSpreadsheetUrl);
+        $this->loadMentors($mentorsSpreadsheetUrl);
 
         $this->info("vai caraio");
         return self::SUCCESS;
@@ -52,7 +54,24 @@ class LoadHackathonCommand extends Command
                     'owner_email' => $participantEmail->toString(),
                     'channels_ids' => []
                 ]);
-                $this->info("Participant $participantEmail loaded");
+                $this->info("Participant loaded");
+            });
+    }
+
+    private function loadMentors(mixed $mentorsSpreadsheetUrl): void
+    {
+        $mentorsList = str(file_get_contents($mentorsSpreadsheetUrl))
+            ->explode(PHP_EOL)
+            ->map(fn(string $mentorEmail) => str($mentorEmail)->lower());
+
+        $this->info(sprintf("Loading %s mentors from $mentorsSpreadsheetUrl", count($mentorsList)));
+
+        $mentorsList
+            ->each(function (Stringable $mentorEmail) {
+                $this->info("Mentor loaded");
+                Mentor::query()->create([
+                    'email' => $mentorEmail->toString()
+                ]);
             });
     }
 
