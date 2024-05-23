@@ -12,11 +12,10 @@ enum TeamRoleEnum: string
     case HR = 'hr';
     case Logistics = 'logistics';
 
-
     public function getDescription(): string
     {
         return match ($this) {
-            self::Developer => 'Pesssoa Desenvolvedora',
+            self::Developer => 'Pessoa Desenvolvedora',
             self::Artist => 'Pessoa Artista',
             self::Business => 'Pessoa de Negócios',
             self::Engineer => 'Pessoa Engenheira',
