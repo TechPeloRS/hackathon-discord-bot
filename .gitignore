@@ -1,0 +1,5 @@
+/vendor
+/builds
+/cache
+*.sqlite
+/database/database.sqlite
