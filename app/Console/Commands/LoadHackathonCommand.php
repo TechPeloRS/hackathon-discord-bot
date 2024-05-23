@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Guild;
 use App\Models\Mentor\Mentor;
 use App\Models\Team\Member;
 use App\Models\Team\Team;
@@ -32,6 +33,7 @@ class LoadHackathonCommand extends Command
         }
 
         $this->wipeTeams();
+        $this->loadGuilds();
         $this->loadParticipants($participantsSpreadsheetUrl);
         $this->loadMentors($mentorsSpreadsheetUrl);
 
@@ -83,5 +85,13 @@ class LoadHackathonCommand extends Command
         Member::truncate();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
+    }
+
+    private function loadGuilds(): void
+    {
+        Guild::truncate();
+        foreach (config('bot.guilds') as $guild) {
+            Guild::query()->create($guild);
+        }
     }
 }
