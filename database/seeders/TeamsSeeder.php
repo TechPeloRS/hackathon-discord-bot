@@ -20,6 +20,10 @@ class TeamsSeeder extends Seeder
 
     public function run(): void
     {
+        if (config('app.env') == 'production') {
+            return;
+        }
+
         // 3
         $this->setTeamsPerGuild();
 
