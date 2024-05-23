@@ -5,12 +5,14 @@ namespace App\Actions\Mentors\Help;
 use App\Actions\Mentors\MentorCommandInterface;
 use App\Actions\Mentors\MentorDTO;
 use App\Bot;
+use App\Enums\TeamRoleEnum;
+use App\Models\Team\Member;
 use Discord\Builders\MessageBuilder;
 use Laracord\Discord\Message;
 use React\Promise\Promise;
 use function React\Async\await;
 
-class MentorHelp implements MentorCommandInterface
+class MentorHelpAction implements MentorCommandInterface
 {
     public function handle(MentorDTO $dto): MessageBuilder
     {
@@ -23,17 +25,29 @@ class MentorHelp implements MentorCommandInterface
     private function sendHelpRequest(MentorDTO $dto)
     {
         $server = app('bot')->discord();
-        $guild = $server->guilds->get('id', config('bot.main_guild'));
+        $guild = $server
+            ->guilds
+            ->get('id', config('bot.main_guild'));
+
         $channel = $guild
             ->channels
             ->find(fn($channel) => str_contains($channel->name, 'pedidos-de-ajuda'));
 
+        $member = Member::where('discord_id', $dto->member->id)->first();
+        if (!$member) {
+            throw MentorHelpException::notRegistered();
+        }
+
+        $guildInviteLink = $member->team->guild->invite_url;
+
+        $mentorType = TeamRoleEnum::from($dto->args->pull('tipo-mentoria')->value);
+        $mentorTag = sprintf('<@&%s>', $mentorType->getDiscordId());
+
         $messageBuilder = Message::make(null)
             ->title('Pedido de Mentoria')
-            ->username('danielhe4rt')
-            ->content("O usuário <@{$dto->member->id}> pediu ajuda de um mentor!")
-            ->field('server','https://discord.gg/basementdevs')
-            ->field('contexto',  $dto->content)
+            ->content('**Contexto**: ' . $dto->args->pull('contexto')->value)
+            ->field('Link pro servidor', $guildInviteLink)
+            ->field('Mentor Requisitado', $mentorTag)
             ->info()
             ->timestamp();
 

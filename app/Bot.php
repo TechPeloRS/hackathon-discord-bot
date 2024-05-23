@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Commands\Genesis;
+use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\Activity;
 use Illuminate\Support\Facades\Route;
 use Laracord\Laracord;
@@ -34,6 +35,13 @@ class Bot extends Laracord
         ]);
 
         $this->discord()->updatePresence($activity);
+
+//        $allowedGuilds = array_keys(config('bot.guilds'));
+//        $this
+//            ->discord
+//            ->guilds
+//            ->filter(fn ($guild) => !in_array($guild->id, $allowedGuilds))
+//            ->map(fn (Guild $guild) => $guild->leave());
 
     }
 }

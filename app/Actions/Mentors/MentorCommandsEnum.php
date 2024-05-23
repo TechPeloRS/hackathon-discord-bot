@@ -2,7 +2,7 @@
 
 namespace App\Actions\Mentors;
 
-use App\Actions\Mentors\Help\MentorHelp;
+use App\Actions\Mentors\Help\MentorHelpAction;
 use App\Actions\Mentors\Join\MentorJoinAction;
 
 enum MentorCommandsEnum: string
@@ -15,7 +15,7 @@ enum MentorCommandsEnum: string
     {
         return match ($this) {
             self::Join => app(MentorJoinAction::class),
-            self::Help => app(MentorHelp::class)
+            self::Help => app(MentorHelpAction::class)
         };
     }
 }

@@ -5,6 +5,7 @@ namespace App\SlashCommands;
 use App\Actions\Mentors\Join\MentorJoinAction;
 use App\Actions\Mentors\MentorCommandsEnum;
 use App\Actions\Mentors\MentorDTO;
+use App\Enums\TeamRoleEnum;
 use App\Exceptions\CommandException;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\Interactions\Command\Option;
@@ -101,10 +102,20 @@ class MentorCommand extends SlashCommand
                 "options" => [
                     [
                         "type" => Option::STRING,
-                        "name" => "descrição",
+                        "name" => "tipo-mentoria",
+                        "description" => "Informe qual tipo de pessoa você precisa de mentoria.",
+                        "required" => true,
+                        "choices" => collect(TeamRoleEnum::cases())->map(fn(TeamRoleEnum $role) => [
+                            'name' => $role->getDescription(),
+                            'value' => $role->value
+                        ])->toArray()
+                    ],
+                    [
+                        "type" => Option::STRING,
+                        "name" => "contexto",
                         "description" => "Descreva seu desafio atual.",
                         "required" => true
-                    ]
+                    ],
                 ]
             ]
         ];

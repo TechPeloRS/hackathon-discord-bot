@@ -19,7 +19,7 @@ class GenesisCommand extends SlashCommand
      *
      * @var string
      */
-    protected $name = 'iniciar-hackathon';
+    protected $name = 'iniciar-hacka';
 
     /**
      * The command description.

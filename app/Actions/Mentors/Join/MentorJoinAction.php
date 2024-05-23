@@ -14,7 +14,7 @@ class MentorJoinAction implements MentorCommandInterface
     public function handle(MentorDTO $dto): MessageBuilder
     {
         $mentor = Mentor::query()
-            ->where('email', $dto->content)
+            ->where('email', $dto->args->pull('email')->value)
             ->orWhere('provider_id', $dto->member->id)
             ->first();
 
