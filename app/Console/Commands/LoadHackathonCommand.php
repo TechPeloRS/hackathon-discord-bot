@@ -71,7 +71,7 @@ class LoadHackathonCommand extends Command
         $mentorsList
             ->each(function (Stringable $mentorEmail) {
                 $this->info("Mentor loaded");
-                Mentor::query()->createOrFirst([
+                Mentor::query()->updateOrCreate([
                     'email' => $mentorEmail->toString()
                 ]);
             });
