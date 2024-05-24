@@ -25,10 +25,10 @@ class Member extends Model
         return $this->belongsTo(Team::class);
     }
 
-    public function alreadyJoinedATeam(string $discordId): bool
+    public function alreadyJoinedATeam(string $discordId): ?Member
     {
         return $this
             ->where('discord_id', $discordId)
-            ->exists();
+            ->first();
     }
 }

@@ -9,9 +9,11 @@ use App\Exceptions\CommandException;
 class JoinTeamException extends CommandException
 {
 
-    public static function alreadyInATeam(): self
+    public static function alreadyInATeam(string $inviteUrl): self
     {
-        return new self('Você já está em um time! Caso deseje trocar de time, contate um organizador.');
+        return new self('
+            Você já está em um time! Caso deseje trocar de time, contate um organizador.
+            Para entrar no servidor de times, acesse o link: ' . $inviteUrl);
     }
 
     public static function teamCodeNotExists(JoinTeamDTO $dto): self

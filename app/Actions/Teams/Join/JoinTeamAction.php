@@ -36,7 +36,8 @@ class JoinTeamAction
     {
         $memberIsAlreadyInATeam = $this->teamMember->alreadyJoinedATeam($dto->member->id);
         if ($memberIsAlreadyInATeam) {
-            throw JoinTeamException::alreadyInATeam();
+            $inviteUrl = $memberIsAlreadyInATeam->team->guild->invite_url;
+            throw JoinTeamException::alreadyInATeam($inviteUrl);
         }
 
         $team = $this->team->findByOwnerEmail($dto->teamKey);
