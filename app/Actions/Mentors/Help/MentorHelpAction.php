@@ -41,13 +41,13 @@ class MentorHelpAction implements MentorCommandInterface
         $guildInviteLink = $member->team->guild->invite_url;
 
         $mentorType = $dto->args->pull('tipo-mentoria')->value;
-        if ($mentorType === '')
+        if ($mentorType === 'outro') {
+            $discordId = "1241470842462928987";
+        } else {
+            $discordId = TeamRoleEnum::from($mentorType)->getDiscordId();
+        }
 
-        $mentorType = TeamRoleEnum::from($mentorType);
-
-
-
-        $mentorTag = sprintf('<@&%s>', $mentorType->getDiscordId());
+        $mentorTag = sprintf('<@&%s>', $discordId);
 
         $messageBuilder = Message::make(null)
             ->title('Pedido de Mentoria')

@@ -39,7 +39,7 @@ class PingCommand extends SlashCommand
      *
      * @var bool
      */
-    protected $admin = true;
+    protected $admin = false;
 
     /**
      * Indicates whether the command should be displayed in the commands list.
