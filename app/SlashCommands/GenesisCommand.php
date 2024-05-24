@@ -47,14 +47,14 @@ class GenesisCommand extends SlashCommand
      *
      * @var bool
      */
-    protected $admin = false;
+    protected $admin = true;
 
     /**
      * Indicates whether the command should be displayed in the commands list.
      *
      * @var bool
      */
-    protected $hidden = false;
+    protected $hidden = true;
 
 
     public function handle($interaction)
@@ -65,11 +65,11 @@ class GenesisCommand extends SlashCommand
             ->setContent("Hackathon Iniciado!")
         );
 
-        $this->wipeRoles();
-        $this->wipeChannels();
-        if (in_array($interaction->member->id, config('discord.admins') )) {
-            dump('foi');
 
+        if (in_array($interaction->member->id, config('discord.admins') )) {
+            $this->wipeRoles();
+            $this->wipeChannels();
+            dump('foi');
         }
 
         return;
