@@ -65,9 +65,11 @@ class GenesisCommand extends SlashCommand
             ->setContent("Hackathon Iniciado!")
         );
 
-        if (config('discord.admins') === 'development') {
-            $this->wipeRoles();
-            $this->wipeChannels();
+        $this->wipeRoles();
+        $this->wipeChannels();
+        if (in_array($interaction->member->id, config('discord.admins') )) {
+            dump('foi');
+
         }
 
         return;

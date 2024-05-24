@@ -156,7 +156,6 @@ class JoinTeamCommand extends SlashCommand
             ->roles
             ->filter(fn($role) => $role->id == $team->role_id)
             ->count();
-        dump($hasChannels, $hasRole);
 
         return $hasChannels && $hasRole;
     }

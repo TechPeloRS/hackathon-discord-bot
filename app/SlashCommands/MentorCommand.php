@@ -108,7 +108,8 @@ class MentorCommand extends SlashCommand
                         "choices" => collect(TeamRoleEnum::cases())->map(fn(TeamRoleEnum $role) => [
                             'name' => $role->getDescription(),
                             'value' => $role->value
-                        ])->toArray()
+                        ])->push(['name' => 'Geral', 'value' => 'outro'])
+                            ->toArray()
                     ],
                     [
                         "type" => Option::STRING,

@@ -40,7 +40,13 @@ class MentorHelpAction implements MentorCommandInterface
 
         $guildInviteLink = $member->team->guild->invite_url;
 
-        $mentorType = TeamRoleEnum::from($dto->args->pull('tipo-mentoria')->value);
+        $mentorType = $dto->args->pull('tipo-mentoria')->value;
+        if ($mentorType === '')
+
+        $mentorType = TeamRoleEnum::from($mentorType);
+
+
+
         $mentorTag = sprintf('<@&%s>', $mentorType->getDiscordId());
 
         $messageBuilder = Message::make(null)
@@ -54,7 +60,10 @@ class MentorHelpAction implements MentorCommandInterface
         /** @var \Discord\Parts\Channel\Message $message */
         $message = await($channel->sendMessage($messageBuilder->build()));
 
-        await($message->react('👍'));
+        // emotion eyes
+        await($message->react('✅'));
+        // emotion check
+        await($message->react('👀'));
     }
 
     public function respondWithMessage(): MessageBuilder

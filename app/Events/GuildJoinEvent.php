@@ -40,6 +40,12 @@ class GuildJoinEvent extends Event
             return;
         }
 
+        $hasRole = $member->roles->find(fn($role) => $role->name === 'Sem Time');
+
+        if ($hasRole) {
+            return;
+        }
+
         await($member->addRole(
             $member->guild->roles->find(fn($role) => $role->name === 'Sem Time')
         ));
@@ -61,11 +67,7 @@ class GuildJoinEvent extends Event
             ->whereHas('team', fn(Builder $team) => $team->where('guild_id', $member->guild_id))
             ->first();
 
-        $role = $teamMember
-            ? $teamMember->team->role_id
-            : $member->guild->roles->find(fn($role) => $role->name === 'Sem Time');
-
-        await($member->addRole($role));
+        await($member->addRole($teamMember->team->role_id));
 
     }
 
