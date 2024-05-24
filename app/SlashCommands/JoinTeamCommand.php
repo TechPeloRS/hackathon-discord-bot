@@ -74,7 +74,6 @@ class JoinTeamCommand extends SlashCommand
                 if (!$this->hasChannelsAndRoles($team)) {
                     dump("generating channels for team - {$team->id}...");
                     $spawnTeam->handle($team);
-                } else {
                 }
 
                 $invite = $this->getInvite($team);

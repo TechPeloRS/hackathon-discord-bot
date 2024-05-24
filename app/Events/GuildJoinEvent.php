@@ -67,6 +67,11 @@ class GuildJoinEvent extends Event
             ->whereHas('team', fn(Builder $team) => $team->where('guild_id', $member->guild_id))
             ->first();
 
+        if (!$teamMember) {
+            dump("Member {$member->id} not found in any team");
+            return;
+        }
+
         await($member->addRole($teamMember->team->role_id));
 
     }
