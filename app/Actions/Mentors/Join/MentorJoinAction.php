@@ -34,10 +34,19 @@ class MentorJoinAction implements MentorCommandInterface
 
     private function addRole(MentorDTO $dto): void
     {
-        $mentorRole = $dto->guild->roles->find(
+
+        $alreadyHasARole = $dto->member->roles->find(
             fn($role) => $role->name === 'Pessoa Mentora'
         );
 
+        if ($alreadyHasARole) {
+            return;
+        }
+
+
+        $mentorRole = $dto->guild->roles->find(
+            fn($role) => $role->name === 'Pessoa Mentora'
+        );
         await($dto->member->addRole($mentorRole));
     }
 
