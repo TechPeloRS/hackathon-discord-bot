@@ -68,6 +68,8 @@ class GuildJoinEvent extends Event
             ->first();
 
         if (!$teamMember) {
+            await($member->sendMessage('Você não está em nenhum time. Volte pro servidor principal e rode o comando /entrar-time com o e-mail do seu lider!'));
+            await($member->sendMessage('Após entrar no time, saia e entre do servidor de times para receber suas permissões!'));
             dump("Member {$member->id} not found in any team");
             return;
         }
