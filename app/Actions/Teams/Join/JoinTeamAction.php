@@ -45,9 +45,6 @@ class JoinTeamAction
             throw JoinTeamException::teamCodeNotExists($dto);
         }
 
-        if ($team->hasMaxMembers()) {
-            throw JoinTeamException::teamAlreadyFull();
-        }
 
         if (!$team->guild_id) {
             $this->setGuildToTeam($team);
