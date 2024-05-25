@@ -47,7 +47,22 @@ class SpawnRoomsCommand extends Command
      * @param array $args
      * @return void
      */
+
     public function handle($message, $args)
+    {
+        $discord = app('bot')->discord();
+
+        $guild = $discord->guilds->get('id', config('bot.main_guild'));
+
+        $teams = Team::whereNotNull('guild_id')->get();
+
+        $this
+            ->message()
+            ->title('SpawnRoomsCommand')
+            ->content('Updated')
+            ->send($message);
+    }
+    public function handleRooms($message, $args)
     {
         $discord = app('bot')->discord();
 
