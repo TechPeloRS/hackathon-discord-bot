@@ -103,7 +103,5 @@ class SpawnRoomsCommand extends Command
             dump($e->getMessage());
         }
 
-
-
     }
 }

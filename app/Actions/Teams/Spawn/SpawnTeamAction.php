@@ -48,7 +48,7 @@ class SpawnTeamAction
         $categoryId = $channel->id;
         $mentorId = $guild->roles->find(fn(Role $role) => $role->name === 'Pessoa Mentora')->id;
         $roleId = $team->role_id;
-        $everyoneRole = $guild->roles->first()->id;
+        $everyoneRole = config('bot.everyoneRole');
 
         $channelsToUpdate = [$channel->id];
         foreach ($this->newChannels as $newChannel) {

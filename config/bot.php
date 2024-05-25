@@ -5,6 +5,7 @@ return [
     'main_guild' => '1240311895362375791',
     'teamsPerGuild' => 100,
     'roomsPerTeam' => 3,
+    'everyoneRole' => '1240311895362375791',
     'guilds' => [
         '1240311895362375791' => [
             'provider_id' => '1240311895362375791',
