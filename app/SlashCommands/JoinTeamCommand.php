@@ -75,11 +75,14 @@ class JoinTeamCommand extends SlashCommand
                     $spawnTeam->handle($team);
                 }
 
-                $invite = $this->getInvite($team);
                 return $this
                     ->message()
                     ->title('Olá Participante!')
-                    ->content("Você entrou no time {$team->id}! Use o link para entrar no canal: https://discord.gg/{$invite->code}")
+                    ->content("
+                        Você entrou no time {$team->id}!
+
+                        Acesse a sala <#{$team->channels_ids[1]}> para conversar com seus colegas.
+                    ")
                     ->build();
             });
 
@@ -97,7 +100,7 @@ class JoinTeamCommand extends SlashCommand
             ->guilds
             ->find(fn(Guild $guild) => $guild->id == $team->guild_id)
             ->channels
-            ->get('name', 'avisos');
+            ->get('name', $channelId);
 
 
         $inviteDTO = $channel->invites->create([
