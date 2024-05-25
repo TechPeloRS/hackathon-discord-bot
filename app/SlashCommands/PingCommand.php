@@ -11,7 +11,7 @@ class PingCommand extends SlashCommand
      *
      * @var string
      */
-    protected $name = 'ping-command';
+    protected $name = 'ping';
 
     /**
      * The command description.
