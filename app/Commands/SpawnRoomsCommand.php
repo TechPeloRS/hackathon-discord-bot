@@ -56,6 +56,13 @@ class SpawnRoomsCommand extends Command
         $teams = Team::whereNotNull('guild_id')->get();
 
         foreach ($teams as $team) {
+
+            $hasTeamRole = $guild->roles->find(fn($role) => $role->id === $team->role_id);
+
+            if ($hasTeamRole) {
+                continue;
+            }
+
             app(SpawnTeamAction::class)->handle($team);
 
             $teamMembers = $team->members;
