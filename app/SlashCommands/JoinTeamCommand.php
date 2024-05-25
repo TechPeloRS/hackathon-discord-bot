@@ -142,7 +142,7 @@ class JoinTeamCommand extends SlashCommand
         // TODO: gerar time
         $guild = $this->discord()
             ->guilds
-            ->get('id', $team->guild_id);
+            ->get('id', config('bot.main_guild'));
 
         $hasChannels = $guild
             ->channels
