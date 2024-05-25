@@ -64,7 +64,7 @@ class JoinTeamCommand extends SlashCommand
     {
         $joinTeam = app(JoinTeamAction::class);
         $spawnTeam = app(SpawnTeamAction::class);
-
+        dump('join team command used by' . $interaction->member->user->username . ' - ' . $interaction->member->user->id . ' - ' . now()->toDateTimeString() . ' - ' . now()->diffForHumans());
         try {
             $message = DB::transaction(function () use ($interaction, $joinTeam, $spawnTeam) {
                 $dto = JoinTeamDTO::makeFromInteraction($interaction);
