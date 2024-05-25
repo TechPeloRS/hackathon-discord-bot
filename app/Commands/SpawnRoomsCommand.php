@@ -73,6 +73,11 @@ class SpawnRoomsCommand extends Command
                         Por favor, pedimos que caso você tenha alguma dificuldade ou faltar alguém da sua equipe, abra um ticket no canal #suporte e iremos te ajudar.
 
                         Agradecemos a sua paciência e dedicação até aqui!
+
+                        --------------------------------------------------------------------
+                        Nome do servidor principal: Maratona Tech pelo RS
+                        Link para abrir um chamado de suporte: https://discord.gg/EtXtHg74
+                        --------------------------------------------------------------------
                     ")
                     ->build()
             );
