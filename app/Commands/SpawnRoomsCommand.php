@@ -51,15 +51,17 @@ class SpawnRoomsCommand extends Command
 
     public function handle($message, $args)
     {
+        return;
         $discord = app('bot')->discord();
 
+        /** @var Guild $guild */
         $guild = $discord->guilds->get('id', config('bot.main_guild'));
 
         $teams = Team::whereNotNull('guild_id')->get();
 
-        foreach (\App\Models\Team\Member::query()->get() as $member) {
+        foreach ($guild->members as $member) {
             /** @var Member $member */
-            $member = $guild->members->get('id', $member->discord_id);
+            dump("dm sent to: " . $member->username);
 
             $member->sendMessage(
                 Message::make(null)
