@@ -4,7 +4,6 @@ namespace App\Actions\Teams\Spawn;
 
 use App\Models\Team\Team;
 use Discord\Parts\Channel\Channel;
-use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\Guild\Role;
 use Discord\Parts\Part;
@@ -33,13 +32,12 @@ class SpawnTeamAction
         $guild = app('bot')
             ->discord()
             ->guilds
-            ->get('id', $team->guild_id);
+            ->get('id', config('bot.main_guild'));
 
         $this->createRole($team, $guild);
 
         $payload = $this->buildBaseCategory($guild, $team);
         $category = await($guild->channels->save($payload));
-
         $this->createChannels($team, $guild, $category);
     }
 

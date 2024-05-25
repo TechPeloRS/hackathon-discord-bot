@@ -8,7 +8,6 @@ use App\Actions\Teams\Spawn\SpawnTeamAction;
 use App\Enums\TeamRoleEnum;
 use App\Exceptions\CommandException;
 use App\Models\Team\Team;
-use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Invite;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\Interactions\Command\Command;

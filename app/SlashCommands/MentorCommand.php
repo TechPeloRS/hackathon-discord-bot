@@ -2,16 +2,12 @@
 
 namespace App\SlashCommands;
 
-use App\Actions\Mentors\Join\MentorJoinAction;
 use App\Actions\Mentors\MentorCommandsEnum;
 use App\Actions\Mentors\MentorDTO;
 use App\Enums\TeamRoleEnum;
 use App\Exceptions\CommandException;
-use Discord\Parts\Guild\Guild;
 use Discord\Parts\Interactions\Command\Option;
-use Discord\Parts\User\Member;
 use Laracord\Commands\SlashCommand;
-use function React\Async\await;
 
 class MentorCommand extends SlashCommand
 {

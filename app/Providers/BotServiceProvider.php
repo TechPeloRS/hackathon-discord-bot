@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Commands\SpawnRoomsCommand;
 use App\Console\Commands\LoadHackathonCommand;
 use Laracord\LaracordServiceProvider;
 
@@ -16,7 +17,7 @@ class BotServiceProvider extends LaracordServiceProvider
     {
         parent::boot();
         $this->commands([
-            LoadHackathonCommand::class
+            LoadHackathonCommand::class,
         ]);
     }
 
