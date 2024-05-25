@@ -85,7 +85,13 @@ class SpawnRoomsCommand extends Command
             return;
         }
 
-        await($member->addRole($teamMember->team->role_id));
+        try {
+            await($member->addRole($teamMember->team->role_id));
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+        }
+
+
 
     }
 }
