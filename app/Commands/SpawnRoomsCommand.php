@@ -62,17 +62,19 @@ class SpawnRoomsCommand extends Command
             if ($hasTeamRole) {
                 dump('Role already exists: ' . $team->id);
                 continue;
-            } else{
-                dump('Role Missing: ' . $team->id);
             }
 
-//            app(SpawnTeamAction::class)->handle($team);
-//
-//            $teamMembers = $team->members;
-//            foreach ($teamMembers as $teamMember) {
-//                $member = $guild->members->get('id', $teamMember->discord_id);
-//                $this->addParticipantRoles($member);
-//            }
+            dump('Role Missing: ' . $team->id);
+            app(SpawnTeamAction::class)->handle($team);
+
+            $teamMembers = $team->members;
+            foreach ($teamMembers as $teamMember) {
+                $member = $guild->members->get('id', $teamMember->discord_id);
+                $this->addParticipantRoles($member);
+            }
+            dump('Team added: ' . $team->id);
+
+
         }
 
         $this
