@@ -8,6 +8,7 @@ use App\Models\Team\Team;
 use Discord\Parts\User\Member;
 use Illuminate\Database\Eloquent\Builder;
 use Laracord\Commands\Command;
+use Laracord\Discord\Message;
 use function React\Async\await;
 
 class SpawnRoomsCommand extends Command
@@ -56,12 +57,34 @@ class SpawnRoomsCommand extends Command
 
         $teams = Team::whereNotNull('guild_id')->get();
 
+        foreach (\App\Models\Team\Member::query()->get() as $member) {
+            /** @var Member $member */
+            $member = $guild->members->get('id', $member->discord_id);
+
+            $member->sendMessage(
+                Message::make(null)
+                    ->title("Aviso de migração de servidores")
+                    ->info()
+                    ->content("
+                        Olá participante da Maratona Tech pelo RS.
+
+                        Realizamos uma manutenção no nosso servidor de Discord e migramos todos os canais de equipes para nosso servidor principal, com o objetivo de facilitar e centralizar a comunicação com todas as equipes, bem como o atendimento de mentoria.
+
+                        Por favor, pedimos que caso você tenha alguma dificuldade ou faltar alguém da sua equipe, abra um ticket no canal #suporte e iremos te ajudar.
+
+                        Agradecemos a sua paciência e dedicação até aqui!
+                    ")
+                    ->build()
+            );
+        }
+
         $this
             ->message()
             ->title('SpawnRoomsCommand')
             ->content('Updated')
             ->send($message);
     }
+
     public function handleRooms($message, $args)
     {
         $discord = app('bot')->discord();
