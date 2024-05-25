@@ -49,7 +49,7 @@ class SpawnRoomsCommand extends Command
      * @return void
      */
 
-    public function handle($message, $args)
+    public function handleMEssages($message, $args)
     {
         return;
         $discord = app('bot')->discord();
@@ -92,7 +92,7 @@ class SpawnRoomsCommand extends Command
             ->send($message);
     }
 
-    public function handleRooms($message, $args)
+    public function handle($message, $args)
     {
         $discord = app('bot')->discord();
 
