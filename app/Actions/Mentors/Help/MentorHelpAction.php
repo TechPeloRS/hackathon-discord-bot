@@ -38,7 +38,6 @@ class MentorHelpAction implements MentorCommandInterface
             throw MentorHelpException::notRegistered();
         }
 
-        $guildInviteLink = $member->team->guild->invite_url;
 
         $mentorType = $dto->args->pull('tipo-mentoria')->value;
         if ($mentorType === 'outro') {
@@ -48,11 +47,14 @@ class MentorHelpAction implements MentorCommandInterface
         }
 
         $mentorTag = sprintf('<@&%s>', $discordId);
+        $channelRedirect = sprintf('<#%s>', $member->team->channels_ids[1]);
+        dump($channelRedirect);
 
         $messageBuilder = Message::make(null)
             ->title('Pedido de Mentoria')
             ->content('**Contexto**: ' . $dto->args->pull('contexto')->value)
-            ->field('Link pro servidor', $guildInviteLink)
+            ->field('Time', $member->team_id)
+            ->field('Link Canal', $channelRedirect)
             ->field('Mentor Requisitado', $mentorTag)
             ->field('Mentorado', '<@' . $dto->member->id . '>')
             ->info()
