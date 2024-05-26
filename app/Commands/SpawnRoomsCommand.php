@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Actions\Teams\Spawn\SpawnTeamAction;
 use App\Models\Guild;
 use App\Models\Team\Team;
+use Discord\Parts\Channel\Channel;
 use Discord\Parts\User\Member;
 use Illuminate\Database\Eloquent\Builder;
 use Laracord\Commands\Command;
@@ -96,8 +97,18 @@ class SpawnRoomsCommand extends Command
     {
         $discord = app('bot')->discord();
 
-        $guild = $discord->guilds->get('id', config('bot.main_guild'));
+        /** @var \Discord\Parts\Guild\Guild $guild */
+        $guild = $discord->guilds->get('id', '1241451165112205322');
 
+        $listChannels = $guild->channels->filter(function ($channel) {
+            return $channel->type === Channel::TYPE_TEXT;
+        });
+
+        // delete voice rooms
+        /** @var Channel $voiceRoom */
+
+
+        return;
         $teams = Team::whereNotNull('guild_id')->get();
 
         foreach ($teams as $team) {

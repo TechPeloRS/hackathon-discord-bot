@@ -54,6 +54,7 @@ class MentorHelpAction implements MentorCommandInterface
             ->content('**Contexto**: ' . $dto->args->pull('contexto')->value)
             ->field('Link pro servidor', $guildInviteLink)
             ->field('Mentor Requisitado', $mentorTag)
+            ->field('Mentorado', '<@' . $dto->member->id . '>')
             ->info()
             ->timestamp();
 
